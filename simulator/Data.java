@@ -37,8 +37,6 @@ public class Data {
 			formatter.format("C%d %d %.2f %d %d%n", i, i, data[i].packages_done_mean(),
 					data[i].packages_done_min, data[i].packages_done_max);
 		}
-		formatter.format("Overall %d %.2f %d %d%n", -1, Data.overall_packages_done_mean,
-				Data.overall_packages_done_min, Data.overall_packages_done_max);
 		formatter.flush();
 		formatter.close();
 
@@ -90,7 +88,7 @@ public class Data {
 		idle_time_total += idle_time;
 		if(idle_time > idle_time_max)
 			idle_time_max = idle_time;
-		if(packages_done < idle_time_min)
+		if(idle_time < idle_time_min)
 			idle_time_min = idle_time;
 	}
 	

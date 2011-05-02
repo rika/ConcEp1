@@ -1,0 +1,27 @@
+================================================================
+MAC0438 - Programacao Concorrente
+
+EP1
+
+Nome: Ricardo Juliano Mesquita Silva Oda
+Nusp: 6514223
+================================================================
+Diretorios
+.         : readme, relatorio e scripts
+plot      : arquivos .gpi para gerar os graficos, GpiWriter para 
+            gerar os .gpi e um script para gerar os graficos
+plot/data : saida dos testes
+plot/img  : graficos
+simulator : src + classes
+================================================================
+Para compilar:
+    ./compile.sh
+
+Para rodar os testes:
+    ./run.sh
+
+Para gerar os graficos:
+    cd plot
+    ./plot.sh
+================================================================
+

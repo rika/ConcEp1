@@ -5,13 +5,16 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-
-
+import java.util.Random;
 
 public class Router {
 
 	protected static int total_packages;
 	protected static Queue<Package> package_queue;
+	
+	// delay entre pacotes
+	private final static int min_wait = 250;
+	private final static int max_wait = 1000;
 
 	protected synchronized static Package package_sync_remove() {
 		try {
@@ -36,9 +39,12 @@ public class Router {
 		package_queue = new LinkedList<Package>();
 		System.out.format("Teste %d.%d\n%d pacote(s), %d copiador(es)\n",test_id, test_number, m, n);
 
+		// copiadores sao criados primeiros e ficam esperando pacotes chegarem
 		for (int i = 0; i < n; i++) {
 			try {
-				copier[i] = new Copier(i, (int)(Math.log(n)+10));
+				// segundo argumento eh o tempo de sleep quando a lista
+				// de pacotes esta vazia
+				copier[i] = new Copier(i, (int)(Math.log(n)*80+100));
 			} catch (OutOfMemoryError e) {
 				n = i;
 				System.err.format("R: sem memoria, foram criados somente %d copiadores\n", n);
@@ -49,6 +55,16 @@ public class Router {
 		
 		for (int i = 0; i < m; i++) {
 			try {
+				if(i != 0) {
+					// delay de chegada
+					Random random = new Random();
+					int sleep_time = min_wait + random.nextInt(max_wait-min_wait+1); 
+					try {
+						Thread.sleep(sleep_time);
+					} catch (InterruptedException e) {
+						System.err.println("R: nao pode esperar");
+					}
+                }
 				pack[i] = new Package(i);
 			} catch (OutOfMemoryError e) {
 				total_packages = m = i;
@@ -109,7 +125,7 @@ public class Router {
 				{1000, 10},
 				{1000, 100},
 				{1000, 1000},
-//				{1000, 1550}, // consegui criar no max 2550 threads
+				{1000, 1550}, // consegui criar no max 2550 threads
 //				{1000, 10000}, 
 		};
 		
@@ -117,20 +133,26 @@ public class Router {
 			Data data[] = new Data[test[i][1]];
 			for(int j = 0; j < test[i][1]; j++)
 				data[j] = new Data();
-			for(int j = 0; j < 3; j++) {
+			
+			// SIMULACAO
+			
+			for(int j = 0; j < 3; j++)
 				router.simulate(i, j, test[i][0], test[i][1], data);
-			}
-			System.out.println("Medias do Teste "+i);
+			
+			// ARQUIVOS DE SAIDA
 			
 			Data.update_overall(data);
 			Data.generate_plot_data(i, data);
+			
+			// SAIDA PADRAO
+			System.out.println("Medias do Teste "+i);
 			
 			for(int j = 0; j < test[i][1]; j++) {
 				System.out.format("C%d: ~%.2f pacotes, min=%d, max=%d, ~%.2fs, min=%.2f max=%.2f\n", j,
 						data[j].packages_done_mean(), data[j].packages_done_min, data[j].packages_done_max,
 						data[j].idle_time_mean(), data[j].idle_time_min, data[j].idle_time_max);
 			}
-			System.out.format("Overall: ~%.2f pacotes, min=%d, max=%d, ~%.2fs, min=%.2f max=%.2f\n\n",
+			System.out.format("Geral: ~%.2f pacotes, min=%d, max=%d, ~%.2fs, min=%.2f max=%.2f\n\n",
 					Data.overall_packages_done_mean, Data.overall_packages_done_min, Data.overall_packages_done_max,
 					Data.overall_idle_time_mean, Data.overall_idle_time_min, Data.overall_idle_time_max);
 		}

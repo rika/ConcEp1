@@ -7,21 +7,25 @@ import java.util.Queue;
 public class Copier extends Thread {
 	protected int id;
 	private final static int speed = 750;
-	private static int idle_sleep_time = 100;
+	private static int idle_sleep_time;
 	private long total_idle_time = 0;
+	// guarda o tempo em que comecou a ficar ocioso
+	private long idle_time;
 	// guarda os pacotes que foram copiados por este copiador
 	private Queue<Package> done = new LinkedList<Package>();
 	
 	private static int total_done = 0;
 
 	public Copier(int id, int idle_sleep_time) {
+	    if (id == 0)
+	        init();
 		Copier.idle_sleep_time = idle_sleep_time;
 		this.id = id;
+		idle_time = System.currentTimeMillis();
 		this.start();
 	}
 	
 	protected void finalize() throws Throwable {
-		total_done = 0;
 		Iterator<Package> i = done.iterator();
 		while(i.hasNext())
 			done.remove();
@@ -30,8 +34,8 @@ public class Copier extends Thread {
 	}
 	
     public void run() {
-//		System.out.format("C%d: start\n", id);
     	while(true) {
+    	    System.out.println("Total done: "+ total_done);
     		if(total_done == Router.total_packages)	return;
 
     		else if(!Router.package_queue.isEmpty()) {
@@ -40,11 +44,13 @@ public class Copier extends Thread {
     		}
     		else {
     			try {
-    				total_idle_time += idle_sleep_time;
     				Thread.sleep(idle_sleep_time);
     			} catch (InterruptedException e) {
     				System.err.format("C%d: acordou antes do tempo\n", id);
     			}
+    			System.out.format("C%d:idle!\n", id);
+    			total_idle_time += System.currentTimeMillis() - idle_time;
+    			idle_time = System.currentTimeMillis();
     		}
     	}
     }
@@ -53,15 +59,20 @@ public class Copier extends Thread {
     	return Router.package_sync_remove();
     }
     
-    public synchronized static void done() {
-    	total_done++;
+    public synchronized static void init() {
+    	Copier.total_done = 0;
     }
-    
+    public synchronized static void done() {
+    	Copier.total_done++;
+    }
+   
 	public void copy(Package p) {
-		try {
-			float copying_time = 1000*p.size/(float)speed;
+        System.out.format("C%d: copiando P%d\n", id, p.id);
+		float copying_time = 1000*p.size/(float)speed;
+        try {
 			Thread.sleep((int)(copying_time));
 			done.add(p);
+            idle_time = System.currentTimeMillis();
 			done();
 		}
 		catch(InterruptedException e) {
