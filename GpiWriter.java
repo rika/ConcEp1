@@ -33,10 +33,10 @@ public class GpiWriter {
 		File file = open_file(file_name);
 		formatter = create_formatter(file_name, file);
 		
-		formatter.format("input_file = data/T%d_pacotes.data\n", test_id);
+		formatter.format("input_file = 'data/T%d_pacotes.data'\n", test_id);
 		formatter.format("set output 'T%d_pacotes.png'\n", test_id);
-		formatter.format("set yrange [0:%d]\n", range_table[test_id][0]);
 		formatter.format("set xrange [-2:%d]\n", range_table[test_id][1]);
+		formatter.format("set yrange [0:%d]\n", range_table[test_id][0]);
 		formatter.format("set ylabel \"Numero de pacotes copiados\"\n");
 		formatter.format(program);
 		
@@ -49,6 +49,8 @@ public class GpiWriter {
 		
 		formatter.format("input_file = 'data/T%d_ociosidade.data'\n", test_id);
 		formatter.format("set output 'img/T%d_ociosidade.png'\n", test_id);
+		formatter.format("set xrange [-2:%d]\n", range_table[test_id][1]);
+		formatter.format("set yrange [0:%d]\n", range_table[test_id][0]);
 		formatter.format("set ylabel \"Tempo ocioso\"\n");
 		formatter.format(program);
 		

@@ -74,7 +74,7 @@ public class Router {
 		// CLEANUP
 		
 		if(!package_queue.isEmpty()) {
-			System.err.println("R: alguns pacotes n‹o foram atendidos");
+			System.err.println("R: alguns pacotes nao foram atendidos");
 			Iterator<Package> i = package_queue.iterator();
 			while(i.hasNext())
 				package_queue.remove();
