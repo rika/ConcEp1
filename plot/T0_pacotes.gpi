@@ -1,0 +1,13 @@
+input_file = data/T0_pacotes.data
+set output 'T0_pacotes.png'
+set ylabel "Numero de pacotes copiados"
+set boxwidth 0.6
+set autoscale
+set ytic 1
+set term png xffffff x000000
+set style fill solid 0.5
+set yrange [0:1000]
+set xrange [-2:100]
+plot input_file using 2:3:xticlabels(1) w boxes lc rgb "#444444" lw 1.0 title "mean", \
+     input_file using 2:4 w points lc rgb "#AA0000" lw 2.0 title "min", \
+     input_file using 2:5 w points lc rgb "#0000AA" lw 2.0 title "max"
