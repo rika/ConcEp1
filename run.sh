@@ -1,3 +1,3 @@
 #!/bin/bash -v
-#java  -XX:MaxPermSize=1g -Xms512m -Xmx1g -Xss16k simulator/Router
-java simulator/Router
+#java  -XX:MaxPermSize=512m -Xms512m -Xmx512m -Xss16k simulator/Router
+java -Xss48k simulator/Router

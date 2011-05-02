@@ -1,13 +1,12 @@
-input_file = data/T0_pacotes.data
-set output 'T0_pacotes.png'
+input_file = 'data/T0_pacotes.data'
+set output 'img/T0_pacotes.png'
 set yrange [0:11]
-set xrange [-2:2]
+set xrange [-1:2]
 set ylabel "Numero de pacotes copiados"
 set xlabel "ID copiador"
 set boxwidth 0.5
-set autoscale
 set term png xffffff x000000
 set style fill solid 0.5
 plot input_file using 2:3 w boxes lc rgb "#444444" lw 1.0 title "mean", \
-     input_file using 2:4 w points lc rgb "#AA0000" lw 2.0 title "min", \
-     input_file using 2:5 w points lc rgb "#0000AA" lw 2.0 title "max"
+     input_file using 2:4 w points lc rgb "#AA0000" lw 1.0 title "min", \
+     input_file using 2:5 w points lc rgb "#0000AA" lw 1.0 title "max"

@@ -3,14 +3,10 @@ all: compile
 
 compile:
 	javac simulator/*.java
-	javac GpiWriter.java
-
-plot:
-	java GpiWriter
-	gnuplot plot/*.gpi
+	javac plot/GpiWriter.java
 
 clean:
-	rm -f GpiWriter.class
+	rm -f plot/GpiWriter.class
 	rm -f simulator/*.class
 	rm -f plot/*.gpi
 
