@@ -103,13 +103,13 @@ public class Router {
 		Locale.setDefault(Locale.US);
 		Router router = new Router();
 		int test[][] = { 
-//				{10, 1}, // m, n
-//				{100, 1},
-//				{1000, 1},
-//				{1000, 10},
-//				{1000, 100},
-//				{1000, 1000},
-				{1000, 1550}, // consegui criar no max 2550 threads
+				{10, 1}, // m, n
+				{100, 1},
+				{1000, 1},
+				{1000, 10},
+				{1000, 100},
+				{1000, 1000},
+//				{1000, 1550}, // consegui criar no max 2550 threads
 //				{1000, 10000}, 
 		};
 		
