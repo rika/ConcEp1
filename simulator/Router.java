@@ -125,7 +125,7 @@ public class Router {
 				{1000, 10},
 				{1000, 100},
 				{1000, 1000},
-				{1000, 1550}, // consegui criar no max 2550 threads
+				// consegui criar no max 2550 threads
 //				{1000, 10000}, 
 		};
 		
