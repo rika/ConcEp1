@@ -30,12 +30,12 @@ public class GpiWriter {
 	static void write_gpi(int test_id) {
 		Formatter formatter = null;
 		Locale.setDefault(Locale.US);
-		String file_name = "T"+test_id+"_pacotes.gpi";
+		String file_name = "plot/T"+test_id+"_pacotes.gpi";
 		File file = open_file(file_name);
 		formatter = create_formatter(file_name, file);
 		
-		formatter.format("input_file = 'data/T%d_pacotes.data'\n", test_id);
-		formatter.format("set output 'img/T%d_pacotes.png'\n", test_id);
+		formatter.format("input_file = 'plot/data/T%d_pacotes.data'\n", test_id);
+		formatter.format("set output 'plot/img/T%d_pacotes.png'\n", test_id);
 		formatter.format("set yrange [0:%d]\n", range_table[test_id][0]);
 		formatter.format("set xrange [-1:%d]\n", range_table[test_id][1]);
 		formatter.format("set ylabel \"Numero de pacotes copiados\"\n");
@@ -44,12 +44,12 @@ public class GpiWriter {
 		formatter.flush();
 		formatter.close();
 		
-		file_name = "T"+test_id+"_ociosidade.gpi";
+		file_name = "plot/T"+test_id+"_ociosidade.gpi";
 		file = open_file(file_name);
 		formatter = create_formatter(file_name, file);
 		
-		formatter.format("input_file = 'data/T%d_ociosidade.data'\n", test_id);
-		formatter.format("set output 'img/T%d_ociosidade.png'\n", test_id);
+		formatter.format("input_file = 'plot/data/T%d_ociosidade.data'\n", test_id);
+		formatter.format("set output 'plot/img/T%d_ociosidade.png'\n", test_id);
 		formatter.format("set yrange [0:%d]\n", range_table[test_id][2]);
 		formatter.format("set xrange [-1:%d]\n", range_table[test_id][1]);
 		formatter.format("set ylabel \"Tempo ocioso\"\n");
